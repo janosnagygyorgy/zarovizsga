@@ -121,6 +121,9 @@ Egy alosztály az ősosztály minden tagját örökli, de csak az ősosztály pu
 #### **Többszörös öröklődés:**
 Egy osztálynak (Java, C#) csak egy őse lehet, de bármennyi interfészt megvalósíthat.
 
+A C++ megengedi a többszörös öröklődést, ami problémákhoz vezethet, ha a szülő osztályoknak közös őse van, mivel ilyenkor nem egyértelmű, hogy a gyerek osztály melyik szülőtől örökölje azok közös adattagjait (diamond problem).
+C++-ban a megoldás erre a virtuális öröklődés, ilyenkor a szülők közös ősének adattagjai örökli a gyerek osztály.
+
 
 #### **Típusellenőrzés:**
 Szigorúan típusos nyelv: minden értéknek fordítási időben ismert a típusa, nem enged meg értékvesztést.
