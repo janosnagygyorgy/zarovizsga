@@ -16,6 +16,14 @@ Statikus és dinamikus típus, [típusellenőrzés](#típusellenőrzés).
 [Altípusos](#altípusos-polimorfizmus) és [parametrikus polimorfizmus](#parametrikus-polimorfizmus).
 Objektumok összehasonlítása és [másolása](#objektumok-másolása).
 
+#### **SOLID elvek:**
+- **S**ingle responsibility
+- **O**pen-Closed
+- **L**iskov’s substitution
+- **I**nterface segregation
+- **D**ependency inversion
+
+
 #### **Típus:**
 Egy adat (változó) típusának definiálásához szükség van a típus specifikációjára és annak megvalósítására.
 
