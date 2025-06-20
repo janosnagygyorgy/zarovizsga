@@ -42,7 +42,7 @@ Ha a tömböt nem nullától szeretnénk indexelni, azt pl. a `B/k: T[n]` deklar
 **Aktuális paraméter:** amivel meghívjuk az alprogramot, pl. `x:= 1; f(x)`
 
 A tömböket a formális paraméter listákon tömbre hivatkozó pointerként jelölhetjük.
-Alprogram híváskor a tömb paramétereknél az aktuális paraméterben levő memóriacím amely a megfelelő tömb-objektum címe a formális раraméterbe másolódik, így az is ugyanarra a tömb-objektumra fog hivatkozni.
+Alprogram híváskor a tömb paramétereknél az aktuális paraméterben levő memóriacím, amely a megfelelő tömb-objektum címe a formális раraméterbe másolódik, így az is ugyanarra a tömb-objektumra fog hivatkozni.
 
 
 ## Adatszerkezet
@@ -58,25 +58,27 @@ Az absztrakt adattípus (ADT) esetében nem definiáljuk pontosan az adatszerkez
 A verem (stack) adattípus LIFO (Last-In First-Out) adattároló, aminél tehát mindig csak az utoljára benne eltárolt, és még benne lévő adat érhető el, illetve törölhető.
 
 ```cpp
-+------------------------------------------------------------------+
-|                               Stack                              |
-+------------------------------------------------------------------+
-| - A/1: T[] // T is some known type ; A.length is the physical    |
-| - constant m0 : N+ := 16 // size of the stack, its default is m0 |
-| - n: N // n ∈ 0..A.length is the actual size of the stack        |
-+------------------------------------------------------------------+
-| + Stack(m: N+ := m0) {A := new T[m]; n :=0} // create empty      |
-| + ~Stack() { delete A }                                          |
-| + push(x: T) // push onto the top of the stack                   |
-| + pop(): T // remove and return the top element of the stack     |
-| + top(): T // return the top element of the stack                |
-| + isEmpty(): B {return n = 0}                                    |
-| + setEmpty() {n := 0} // reinitialize the stack                  |
-+------------------------------------------------------------------+
++--------------------------------------------------------------------+
+|                               Stack                                |
++--------------------------------------------------------------------+
+| - A/1: T[] // T is some known type ; A.length is the physical      |
+| - constant m0: N+ := 16 // size of the stack, its default is m0    |
+| - n: N // n ∈ 0..A.length is the actual size of the stack          |
++--------------------------------------------------------------------+
+| + Stack(m: N+ := m0) {A := new T[m]; n := 0} // create empty stack |
+| + ~Stack() { delete A }                                            |
+| + push(x: T) // push onto the top of the stack                     |
+| + pop(): T // remove and return the top element of the stack       |
+| + top(): T // return the top element of the stack                  |
+| + isEmpty(): B {return n = 0}                                      |
+| + setEmpty() {n := 0} // reinitialize the stack                    |
++--------------------------------------------------------------------+
 ```
 
 A vermet most dinamikus tömb (A/1: T[]) segítségével reprezentáljuk, ahol A.length a verem fizikai mérete, T a verem elemeinek típusa.
 Ha A nem elég nagy, a `doubleFullArray` megnöveli a méretét.
+
+<img src="./img/15_algo/stack.png" width="550"/>
 
 Példa a verem egyszerű használatára: az input adatok kiírása fordított sorrendben. 
 
@@ -89,27 +91,31 @@ A push műveletigénye $mT(n) \in \Theta(1)$ és $MT(n) \in \Theta(n)$ (és $AT(
 A sor (queue) adattípus FIFO (First-In First-Out) adattároló, aminél tehát a még benne lévő adatok közül adott pillanatban csak a legrégebben benne eltárolt érhető el, illetve törölhető.
 
 ```cpp
-+-------------------------------------------------------------------------+
-|                                  Queue                                  |
-+-------------------------------------------------------------------------+
-| - Z: T[] // T is some known type; Z.length is the physical              |
-| - constant m0: N+ := 16 // length of the queue, its default is m0.      |
-| - n: N // n ∈ 0..Z.length is the actual length of the queue             |
-| - k: N / k ∈ 0..(Z.length – 1): the starting position of the queue in Z |
-+-------------------------------------------------------------------------+
-| + Queue(m: N+ := m0){ Z := new T[m] ; n := 0; k := 0 }                  |
-| // create an empty queue                                                |
-| + add(x: T) // join x to the end of the queue                           |
-| + rem(): T // remove and return the first element of the queue          |
-| + first(): T // return the first element of the queue                   |
-| + length(): N {return n}                                                |
-| + isEmpty(): B {return n = 0}                                           |
-| + ~Queue() { delete Z }                                                 |
-| + setEmpty() {n := 0} // reinitialize the queue                         |
-+-------------------------------------------------------------------------+
++--------------------------------------------------------------------------+
+|                                  Queue                                   |
++--------------------------------------------------------------------------+
+| - Z: T[] // T is some known type; Z.length is the physical               |
+| - constant m0: N+ := 16 // length of the queue, its default is m0.       |
+| - n: N // n ∈ 0..Z.length is the actual length of the queue              |
+| - k: N // k ∈ 0..(Z.length – 1): the starting position of the queue in Z |
++--------------------------------------------------------------------------+
+| + Queue(m: N+ := m0){ Z := new T[m] ; n := 0; k := 0 }                   |
+| // create an empty queue                                                 |
+| + add(x: T) // join x to the end of the queue                            |
+| + rem(): T // remove and return the first element of the queue           |
+| + first(): T // return the first element of the queue                    |
+| + length(): N {return n}                                                 |
+| + isEmpty(): B {return n = 0}                                            |
+| + ~Queue() { delete Z }                                                  |
+| + setEmpty() {n := 0} // reinitialize the queue                          |
++--------------------------------------------------------------------------+
 ```
 
 A sort nullától indexelt dinamikus tömb (Z: T[]) segítségével reprezentáljuk, ahol az Z.length a sor fizikai mérete, T a sor elemeinek típusa.
+
+<img src="./img/15_algo/queue.png" width="450"/>
+
+A vermet és a sort természetesen ábrázolhatjuk láncolt listák segítségével is, a verem esetében az egyszerű láncolt lista elejét a verem tetejének tekintve, a sor esetében pedig lista végéhez közvetlen hozzáférést biztosítva.
 
 ### Műveletigény
 Mindegyik művelet egyszerű és rekurziót és ciklust nem tartalmaz, műveletigénye $\Theta(1)$.
@@ -167,7 +173,7 @@ Cserébe minden egyes fejelemes lista eggyel több objektumot tartalmaz, mint a 
 Végelemes lista: használható pl. sorok hatékony megvalósítására.
 A láncolt listákon szereplő extra elemeket, mint a fejelem vagy végelem, és más, a lista egy-egy szakaszát határoló listaelemeket összefoglaló néven őrszem (sentinel) elemeknek hívjuk.
 
-Az egyirányú listák alapműveleteinek (follow, unlink) műveletigénye $\Theta(1)$.
+Az egyirányú listák alapműveleteinek (follow(p, q), unlink(p, q), lista elejére szúrás, lista elejéről elvétel) műveletigénye $\Theta(1)$.
 
 
 ### Kétirányú listák (two-way or doubly-linked lists)
