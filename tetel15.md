@@ -622,10 +622,10 @@ Ha a kulcsok univerzuma sokkal nagyobb, mint a tárolandó elemek száma, akkor 
 
 **Hasító függvény** (hash function): $h : U \rightarrow [0..m)$, ahol tipikusan $|U| >> m$.
 
-A k kulcsú adatot a T[0..m) hasító tábla T[h(k)] próbáljuk tárolni.
+A k kulcsú adatot a T[0..m) hasító tábla T[h(k)] résében próbáljuk tárolni.
 Minden rekord kulcsa egyedi.
 
-A $h : U \rightarrow [0..m)$ függvény **egyszerű egyenletes hasítás**, ha a kulcsokat a rések között egyenletesen szórja szét, azaz hozzávetőleg ugyanannyi kulcsot képez le az m rés mindegyikére.
+A $h: U \rightarrow [0..m)$ függvény **egyszerű egyenletes hasítás**, ha a kulcsokat a rések között egyenletesen szórja szét, azaz hozzávetőleg ugyanannyi kulcsot képez le az m rés mindegyikére.
 
 #### **Jó hasító függvények**
 ##### Osztó módszer (division method)
@@ -643,7 +643,7 @@ A módszer nem minden lehetséges konstanssal szór egyformán jól.
 **Kulcsütközés** (collision): ha két adat $k_1$, $k_2$ kulcsára $h(k_1) = h(k_2)$. Mivel $|U| >> m$, ezért kulcsütközés szinte biztosan előfordul.
 
 #### Feloldása láncolással
-A hasító tábla rései egyszerű láncolt listákat azonosítanak (T:E1*[m]).
+A hasító tábla rései egyszerű láncolt listákat azonosítanak (T: E1*[m]).
 Ha a hasító függvény több elem kulcsát a hasító táblának ugyanarra a résére képzi le, akkor ezeket az elemeket az ehhez a réshez tartozó listában tároljuk.
 
 <img src="./img/15_algo/chaining.png" width="850"/>
@@ -665,31 +665,32 @@ A T: R[m] hasító tábla R típusú rekordjainak kulcsa lehet E vagy D extremá
 
 Jelölések:
 - $h: U \times 0..(m – 1) \rightarrow 0..(m – 1)$: próbafüggvény
-- $\left< h(k,0), h(k,1), \cdots, h(k,m - 1) \right>$: potenciális próbasorozat
+- $\left< h(k,0), h(k,1), \cdots, h(k,m - 1) \right>$: **potenciális próbasorozat**
 - Szabad rések: üres és törölt rések, a többi rés foglalt rés
 
-##### **Nincs törlés**
-##### Beszúrás
+##### Nincs törlés
+###### Beszúrás
 Most egy helyett m darab hasító függvényünk van ($h(k,0), h(k,1), \cdots$) mivel egy adott k kulcsú elem elhelyezését m helyre próbálhatjuk meg, mielőtt kimerítjük a potenciális próbasorozatot.
-Ha találunk üres rést, ebbe tesszük az adatot, különben sikertelen a beszúrás.
+Ha találunk üres rést, ebbe tesszük az adatot.
+Ha találunk k kulcsú adatot, vagy kimerítjük a potenciális próbasorozatot, akkor sikertelen a beszúrás.
 
-Nem fogjuk minden beszúrásnál kipróbálni mind az m lehetőséget, így a potenciális próbasorozat egy prefixét állítjuk elő: az aktuális próbasorozatot.
+Nem fogjuk minden beszúrásnál kipróbálni mind az m lehetőséget, így a potenciális próbasorozat egy prefixét állítjuk elő: az **aktuális próbasorozatot**.
 
-##### Keresés
+###### Keresés
 A k kulcsú adat keresésénél is a potenciális próbasorozatot követjük, és akkor állunk meg, ha
 - megtaláltuk a keresett kulcsú foglalt rést (sikeres keresés)
 - üres rést találunk vagy kimerítjük a potenciális próbasorozatot (sikertelen keresés).
 
-##### **Van törlés**
-##### Törlés
+##### Van törlés
+###### Törlés
 A törlés egy sikeres keresést követően a megtalált rés kulcsának törölt-re (D) állításából áll.
 
-##### Keresés
+###### Keresés
 A keresésnél a potenciális próbasorozatot követjük, átlépjük a törölt réseket is, és csak akkor állunk meg, ha
 - megtaláltuk a keresett kulcsú foglalt rést (sikeres keresés)
 - üres rést találunk vagy kimerítjük a potenciális próbasorozatot (sikertelen keresés).
 
-##### Beszúrás
+###### Beszúrás
 A beszúrásnál egy teljes keresést végzünk el a beszúrandó adat kulcsára, de ha közben találunk törölt rést, az első ilyet megjegyezzük.
 
 - **A keresés sikeres:** a beszúrás sikertelen (duplikált kulcsot nem engedünk meg)
@@ -730,6 +731,7 @@ Ha például a tábla m mérete kettő hatvány, akkor $c_1 = c_2 = \frac{1}{2}$
 #### **Kettős hasítás**
 $h(k, i) = (h_1(k) +i h_2(k)) \; mod \; m$
 
+$h2: U \rightarrow 1..(m−1)$ is hasító függvény.
 A próbasorozat pontosan akkor fedi le az egész hasító táblát, ha $h_2(k)$ és m relatív prímek.
 Ezt a legegyszerűbb úgy biztosítani,
 - ha a m kettő hatvány és $h_2(k)$ minden lehetséges kulcsra páratlan szám
@@ -755,9 +757,11 @@ Az irányított gráfoknál pedig $u \rightarrow v_{u_1}; \cdots; v_{u_k}$ azt j
 
 #### **Szomszédossági mátrixos (csúcsmátrixos, adjacency matrix) reprezentáció**
 
-A szomszédossági mátrixos, vagy más néven csúcsmátrixos ábrázolásnál a $G = (V, E)$ gráfot egy A/1 : bit[n, n] mátrix reprezentálja, ahol n a csúcsok száma, 1..n a csúcsok sorszámai, azaz azonosító indexei és
+A szomszédossági mátrixos, vagy más néven csúcsmátrixos ábrázolásnál a $G = (V, E)$ gráfot egy A/1: bit[n, n] mátrix reprezentálja, ahol n a csúcsok száma, 1..n a csúcsok sorszámai, azaz azonosító indexei és
 $$
-A[i, j] = 1 \Leftrightarrow (v_i,v_j) \in E \\
+A[i, j] = 1 \Leftrightarrow (v_i,v_j) \in E
+$$
+$$
 A[i, j] = 0 \Leftrightarrow (v_i,v_j) \notin E
 $$
 
@@ -787,8 +791,12 @@ Ugyanaz, mint az egyszerű gráfok szöveges ábrázolása, de itt megjelenik a 
 Hasonló, mint az egyszerű gráfok szomszédossági mátrixos reprezentációja.
 Az A mátrix elemei:
 $$
-A[i, j] = w(v_i,v_j) \Leftrightarrow (v_i,v_j) \in E \\
-A[i, i] =0 \\
+A[i, j] = w(v_i,v_j) \Leftrightarrow (v_i,v_j) \in E
+$$
+$$
+A[i, i] =0
+$$
+$$
 A[i, j] = \infty \Leftrightarrow (v_i,v_j) \notin E \land i ≠j
 $$
 
