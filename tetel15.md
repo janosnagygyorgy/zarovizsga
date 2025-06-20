@@ -169,6 +169,7 @@ Előnyben részesítjük a listák megfelelő átláncolását, mivel kerüljük
 
 A fejelemes listákat kezelő programok kódja gyakran kevesebb esetszétválasztást tartalmaz, mint a nekik megfelelő, egyszerű listákat kezelő programok, hiszen mindig valami után kell beszúrni, és mindig valami mögül kell kifűzni.
 Cserébe minden egyes fejelemes lista eggyel több objektumot tartalmaz, mint a neki megfelelő egyszerű lista, ami valamelyest megnöveli a program tárigényét.
+Ezért ahol sok rövid listát használunk (pl. hasító táblák), ott jelentős különbséget okozhat a fejelemek használata.
 
 Végelemes lista: használható pl. sorok hatékony megvalósítására.
 A láncolt listákon szereplő extra elemeket, mint a fejelem vagy végelem, és más, a lista egy-egy szakaszát határoló listaelemeket összefoglaló néven őrszem (sentinel) elemeknek hívjuk.
@@ -210,7 +211,7 @@ A C2L-ek műveleteinek (precede(q, r), follow(p, q), unlink(q)) műveletigénye 
 A bináris fák esetében minden adatelemnek vagy szokásos nevén csúcsnak (node) legfeljebb kettő rákövetkezője van: egy bal (left) és/vagy egy jobb (right) rákövetkezője.
 Ezeket a csúcs **gyerekeinek** (children) nevezzük.
 
-A csúcs a gyerekei **szülője** (parent), ezek pedig egymás testvérei (siblings).
+A csúcs a gyerekei **szülője** (parent), ezek pedig egymás **testvérei** (siblings).
 
 Ha egy csúcsnak nincs gyereke, **levélnek** (leaf) hívjuk, ha pedig nincs szülője, **gyökér** (root) csúcsnak nevezzük.
 **Belső csúcs** (internal node) alatt nem-levél csúcsot értünk.
@@ -236,7 +237,7 @@ Tetszőleges nemüres bináris fa magassága: $\lfloor \log n \rfloor \leq h \le
 **Listává torzult fa:** olyan bináris fa, amelyben minden belső (azaz nem-levél) csúcsnak egy gyereke van.
 
 **Szigorúan bináris fa:** olyan bináris fa, amelyben minden belső (azaz nem-levél) csúcsnak két gyereke van.
-Ha ennek minden levele azonos szinten van, akkor teljes bináris fa.
+Ha ennek minden levele azonos szinten van, akkor **teljes bináris fa**.
 Egy h magasságú teljes bináris fának $1 + 2 + 4 + \cdots + 2^h = 2^{h+1} - 1$ csúcsa van.
 
 **Majdnem teljes bináris fa:** ha egy teljes bináris fa levélszintjéről nulla, egy vagy több levelet elveszünk. Csúcsainak száma $n \in [2^h..2^{h+1})$, így $h = \lfloor \log n \rfloor$.
@@ -246,9 +247,9 @@ Egy h magasságú teljes bináris fának $1 + 2 + 4 + \cdots + 2^h = 2^{h+1} - 1
 <img src="./img/15_algo/bejarasok.png" width="450"/>
 
 Bejárások r-áris fákra:
-- preorder: gyökér, majd sorban a 0..r - 1. részfák
-- postorder: sorban a 0..r – 1. részfák, majd a gyökér
-- inorder: nulladik részfa, gyökér, majd sorban az 1..r - 1. részfák
+- preorder: gyökér, majd sorban a 0..r-1. részfák
+- postorder: sorban a 0..r-1. részfák, majd a gyökér
+- inorder: nulladik részfa, gyökér, majd sorban az 1..r-1. részfák
 - levelorder: a gyökértől kezdve szintenként, minden szintet balról jobbra dolgoz fel
 
 A műveletigény mindegyik bejárásra $T(n) \in \Theta(n)$.
@@ -265,7 +266,7 @@ A leggyakoribb ábrázolási módszer. Az üres fa reprezentációja a $\oslash$
 | + left, right: Node*                                             |
 +------------------------------------------------------------------+
 | + Node() { left := right := null } // egycsúcsú fát képez belőle |
-| + Node(x: T) { left :=right := null; key := x }                  |
+| + Node(x: T) { left := right := null; key := x }                 |
 +------------------------------------------------------------------+
 ```
 
@@ -357,7 +358,9 @@ Azaz csak az alsó szint jobb széléről hiányozhatnak csúcsok (a bal széls�
 
 A balra tömörített majdnem teljes bináris fák más néven **szintfolytonos bináris fák**.
 
-**Maximum [minimum] kupac (heap):** olyan szintfolytonos bináris fák, amelyekben minden belső csúcs kulcs kisebb-egyenlő [nagyobb-egyenlő], mint a gyerekeié.
+**Maximum [minimum] kupac (heap):** olyan szintfolytonos bináris fák, amelyekben minden belső csúcs kulcsa nagyobb-egyenlő [kisebb-egyenlő], mint a gyerekeié.
+
+Egy kupac bal- és jobb oldali részfájában lévő kulcsok között nincs semmi nagyságrendi kapcsolat.
 
 Bármely nemüres kupac maximuma a gyökércsúcsában, minimuma a levelei között található meg.
 
@@ -402,7 +405,7 @@ $mt(n) \in \Theta(1)$, mivel lehet, hogy rögtön a jó helyre kerül a berakott
 ##### A remMax() metódus
 A remMax() metódus a maximum elmentése után a kupac gyökerébe, A[1]-be teszi át a szintfolytonosan utolsó elemet.
 Ezzel a kupac mérete eggyel csökken, és a gyökerénél valószínűleg el is romlik (csonka kupac lesz).
-Ezért a sink eljárás segítségével (amit mindig k = 1-gyel hív meg) a gyökérbe átrakott elemet (A[i]) addig süllyeszti lefelé, amíg a helyére nem kerül.
+Ezért a sink eljárás segítségével (amit mindig k=1-gyel hív meg) a gyökérbe átrakott elemet (A[i]) addig süllyeszti lefelé, amíg a helyére nem kerül.
 Ennek során a lesüllyesztendő elemet mindig az aktuálisan nagyobb gyerekével cseréli meg, amíg még a levélszint fölött van, és a nagyobbik gyereke nagyobb nála.
 
 Műveletigénye: a sink eljárás dominál.
@@ -428,7 +431,7 @@ A kulcsot akkor és csak akkor találja meg, ha ott nemüres részfa van, külö
 
 #### **insert(t, k)**
 Megkeresi a t fában a k kulcs helyét.
-Ha ott egy üres részfát talál, akkor az üres részfa helyére tesz egy új levélcsúcsot, k kulccsal.
+Ha ott egy üres részfát talál, akkor az üres részfa helyére tesz egy új levélcsúcsot, k kulccsal (különben nem csinál semmit, mert a kulcs már benne van a fában).
 
 #### **min(t)**
 A t nemüres fa "bal alsó" csúcsára hivatkozó pointerrel tér vissza.
