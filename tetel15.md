@@ -397,7 +397,7 @@ Az add(x) esetében a szintfolytonosan első üres (A[j]) helyen x-et hozzákapc
 Ezzel elronthatjuk a kupacot, ezért x-et fölemeljük, azaz addig cserélgetjük (mindig az aktuális szülőjével, A[i]-vel), amíg van szülője, és $x >$ mint a szülője.
 
 Műveletigénye:
-- Ha van még hely a tömbben: $MT(n) \in \Theta(\log n)$, mivel a ciklus annyiszor iterál, amennyi a fa magassága (ennyiszer kell emelni).
+- Ha van még hely a tömbben: $MT(n) \in \Theta(\log n)$, mivel a ciklus annyiszor iterálhat, amennyi a fa magassága (ennyiszer kell emelni).
 - Ha nincs hely: $MT(n) \in \Theta(n)$, mivel a doubleFullArray dominál.
 
 $mt(n) \in \Theta(1)$, mivel lehet, hogy rögtön a jó helyre kerül a berakott elem és nem kell emelni.
