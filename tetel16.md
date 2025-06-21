@@ -17,7 +17,7 @@ mentén érintett élek száma.
 
 ### Szélességi keresés (BFS: breadth-first search)
 Irányított és irányítatlan gráfokra is értelmezzük.
-Meghatározzuk a start csúcsból (s) a gráf minden, s-ből elérhető csúcsába a legkevesebb élet tartalmazó utat (legrövidebb/optimális út)(ha több ilyen van, akkor az egyiket).
+Meghatározzuk a start csúcsból (s) a gráf minden, s-ből elérhető csúcsába a legkevesebb élt tartalmazó utat (legrövidebb/optimális út)(ha több ilyen van, akkor az egyiket).
 
 Csúcsok címkéi:
 - d: a megtalált úttal hány élen keresztül jutunk a csúcsba
@@ -39,9 +39,9 @@ Mire az s-től k távolságra levő csúcsokat feldolgozzuk, a sort már az s-t�
 Azt mondjuk, hogy az s-től k távolságra levő csúcsok vannak a gráf k-adik szintjén.
 Így a BFS a gráfot szintenként járja be, először a nulladik szintet, aztán az elsőt, majd a másodikat stb.
 Minden szintet teljesen feldolgoz, mielőtt a következőre lépne, közben pedig éppen a következő szinten levő csúcsokat találja meg.
-Innét jönnek a szélességi bejárás és a szélességi keresés elnevezések.
+Innen jönnek a szélességi bejárás és a szélességi keresés elnevezések.
 
-Mivel a gráf véges, végül nem lesz már k + 1 távolságra levő csúcs, Q kiürül és a BFS megáll.
+Mivel a gráf véges, végül nem lesz már k+1 távolságra levő csúcs, Q kiürül és a BFS megáll.
 Azokat a csúcsokat, amelyek s-ből elérhetők, az algoritmus valamelyik szinten meg is találja, és megfelelően beállítja a d és a $\pi$ címkéiket is.
 A többi csúcs tehát s-ből nem érhető el. Ezekre $d = \infty$ és $\pi = \oslash$ marad.
 
@@ -108,7 +108,7 @@ A G irányított gráf akkor **DAG** (directed acyclic graph, körmentes irány�
 
 Amennyiben a mélységi bejárás egy $(u,v)$ vissza-élt talál, azzal irányított kört is talált a gráfban.
 
-A G irányított gráf DAG $\Leftrightarrow$ G-ben vissza-élt.
+A G irányított gráf DAG $\Leftrightarrow$ a mélységi bejárás nem talál G-ben vissza-élt.
 
 Ha a DFS talál egy $(u,v)$ vissza-élt, akkor az $\left< u, \pi(u), \pi(\pi(u)), \cdots, v, u  \right>$ csúcssorozat visszafelé olvasva egyszerű irányított kört ad.
 
@@ -144,13 +144,13 @@ A $G = (V, E)$ irányítatlan gráf **feszítő erdeje** a $T = (V, F)$ gráf, h
 
 A $G = (V, E)$ irányítatlan, összefüggő gráf **feszítőfája** a $T = (V, F)$ gráf, ha $F \subseteq E$, és T fa.
 
-Amennyiben $G = (V, E)$ élsúlyozott gráf (fa, erdő stb.) $w: \rightarrow \mathbb{R}$ súlyfüggvénnyel, akkor a **G súlya** az élei súlyainak összege:
+Amennyiben $G = (V, E)$ élsúlyozott gráf (fa, erdő stb.) $w: E \rightarrow \mathbb{R}$ súlyfüggvénnyel, akkor a **G súlya** az élei súlyainak összege:
 $$w(G) = \sum\limits_{e \in E} w(e)$$
 
 A G irányítatlan, összefüggő, élsúlyozott gráf **minimális feszítőfája** (minimum spanning tree, MST) T, ha T a G feszítőfája, és G bármely T' feszítőfájára $w(T) \leq w(T')$.
 
 ### Általános algoritmus
-Az $A = \{ \}$ üres élhalmazból indul, és ezt úgy bővíti újabb és újabb élekkel, hogy A végig a G összefüggő, irányítatlan, élsúlyozott gráf valamelyik minimális feszítőfája élhalmazának a részhalmaza marad: az így választott éleket nevezzük az A élhalmazra nézve biztonságosnak (safe for A). Amikor az élek száma eléri a $|G.V| – 1$ értéket, az A szükségszerűen feszítőfa, és így minimális feszítőfa is lesz.
+Az $A = \{ \}$ üres élhalmazból indul, és ezt úgy bővíti újabb és újabb élekkel, hogy A végig a G összefüggő, irányítatlan, élsúlyozott gráf valamelyik minimális feszítőfája élhalmazának a részhalmaza marad: az így választott éleket nevezzük az A élhalmazra nézve biztonságosnak (safe for A). Amikor az élek száma eléri a $|G.V| - 1$ értéket, az A szükségszerűen feszítőfa, és így minimális feszítőfa is lesz.
 
 <img src="./img/16_algo/genMST.png" width="300"/>
 
@@ -186,13 +186,13 @@ A **Kruskal algoritmus invariánsa**, hogy $(V, A)$ a $G = (V, E)$ összefüggő
 
 #### **Algoritmus**
 $A = \{\}$-val indulunk, ami azt jelenti, hogy kezdeti feszítő erdő fái a $G = (V, E)$ gráf egycsúcsú fái.
-A G gráf éleit súlyuk (hosszuk) szerint monoton növekvően vesszük sorba, és tetszőleges élet pontosan akkor veszünk hozzá A-hoz, ha a (V, А) erdő két fáját köti össze (azaz nem egy fán belül fut, és így nem zár be egyetlen kört sem).
+A G gráf éleit súlyuk (hosszuk) szerint monoton növekvően vesszük sorba, és tetszőleges élt pontosan akkor veszünk hozzá A-hoz, ha a (V, А) erdő két fáját köti össze (azaz nem egy fán belül fut, és így nem zár be egyetlen kört sem).
 
 Ezért minden egyes él hozzávételével eggyel csökken az erdő fáinak száma, de továbbra is feszítő erdőt alkotnak.
-Mivel G összefüggő, bármelyik két fa között van út, így előbb-utóbb összekapcsolódnak és már csak egy T fából áll az erdő, T feszítőfa.
+Mivel G összefüggő, bármelyik két fa között van út, így előbb-utóbb ($|V| - 1$ lépés után) összekapcsolódnak és már csak egy T fából áll az erdő, T feszítőfa.
 
 A fenti invariáns miatt a T élhalmaza részhalmaza valamelyik M minimális feszítőfa élhalmazának.
-A G minden feszítőfájának $|V| – 1$ éle van, így a T és M élhalmaza megegyezik.
+A G minden feszítőfájának $|V| - 1$ éle van, így a T és M élhalmaza megegyezik.
 Mindkettő csúcshalmaza V, tehát T = M, azaz T minimális feszítőfa.
 
 <img src="./img/16_algo/kruskal.png" width="450"/>
@@ -224,16 +224,16 @@ A fő ciklus egy iterációja $O(\log n)$ időt igényel, és mivel legfeljebb m
 
 ### Prim algoritmusa
 Kijelölünk a $G = (V, E)$ összefüggő, élsúlyozott, irányítatlan gráfban egy tetszőleges $r \in V$ csúcsot.
-A $T = (\{r\}, \{\})$, egyetlen csúcsból álló fából kiindulva építünk fel egy minimális $(V, F)$ feszítőfát: minden lépésben a $T = (N, A)$ fához egy újabb biztonságos élet és hozzá tartozó csúcsot adunk.
+A $T = (\{r\}, \{\})$, egyetlen csúcsból álló fából kiindulva építünk fel egy minimális $(V, F)$ feszítőfát: minden lépésben a $T = (N, A)$ fához egy újabb biztonságos élt és hozzá tartozó csúcsot adunk.
 
-Ez azt jelenti, hogy a $T = (N, A)$ fa végig ennek a minimális feszítőfának ($(V, F)$) a része marad, azaz végig igaz az $N \subseteq V \land A \subseteq F$ invariáns. Ehhez mindegyik lépésben egy könnyű élet választunk ki az $(N, V \setminus N)$ vágásban.
+Ez azt jelenti, hogy a $T = (N, A)$ fa végig ennek a minimális feszítőfának ($(V, F)$) a része marad, azaz végig igaz az $N \subseteq V \land A \subseteq F$ invariáns. Ehhez mindegyik lépésben egy könnyű élt választunk ki az $(N, V \setminus N)$ vágásban.
 
 A megfelelő könnyű él hatékony meghatározása céljából egy Q minimum prioritásos sorban (c(u) alapján) tartjuk nyilván a feldolgozatlan csúcsokat (($V \setminus N$) csúcshalmazt).
 
 Mindegyik $u \in V \setminus N$ (prioritásos sorban lévő) csúcshoz tartozik egy $c(u)$ és egy $p(u)$ címke.
 Ha van él az u csúcs és a T fa N csúcshalmaza között ($(N, V \setminus N)$ vágásban), akkor $(p(u), u)$ a minimális súlyú él azok között, amelyek az u csúcsot a T fához kapcsolják és $c(u) = w(p(u), u)$.
 
-Az eredetileg egyetlen csúcsból álló T fa, n–1 db ilyen $(p(u), u)$ él hozzáadásával MST (minimális feszítőfa) lesz.
+Az eredetileg egyetlen csúcsból álló T fa, n-1 db ilyen $(p(u), u)$ él hozzáadásával MST (minimális feszítőfa) lesz.
 
 #### Algoritmus
 <img src="./img/16_algo/prim.png" width="450"/>
@@ -246,7 +246,7 @@ Az első ciklus műveletigénye $\Theta(n)$, a két ciklus közti részé pedig 
 
 A második ciklus n-1-szer fut le, az elem kivétele $O(\log n)$ műveletigényű, így összesen $O(n * \log n)$
 
-A belső ciklus a gráf minden élére legfeljebb kétszer fog lefutni (2m), hiszen mindegyik élet mindkét végpontja felől megtaláljuk (kivéve azokat, amelyek egyik végpontja a Q-ban utoljára megmaradt csúcs).
+A belső ciklus a gráf minden élére legfeljebb kétszer fog lefutni (2m), hiszen mindegyik élt mindkét végpontja felől megtaláljuk (kivéve azokat, amelyek egyik végpontja a Q-ban utoljára megmaradt csúcs).
 A Q.adjust(v) utasítás műveletigénye $O(\log n)$.
 A belső ciklus tehát, biztosan lefut $O(m * \log n)$ idő alatt.
 
@@ -286,7 +286,7 @@ Ebben az esetben nem lehet a gráfban negatív kör, tehát a legrövidebb utak 
 
 Amíg a kiterjesztésre kiválasztott u csúcsra $d(u) < \infty$, addig olyan csúcsot választunk ki, amelyikbe már optimális utat találtunk.
 
-Ha $d(u) < \infty$ mindegyik kiválasztott csúcsra igaz, akkor és csak akkor az algoritmus (második ciklusa) n-1 iterációval kiüríti Q-t, és megáll, miután gráf mindegyik csúcsába optimális utat talált.
+Ha $d(u) < \infty$ mindegyik kiválasztott csúcsra igaz, akkor és csak akkor az algoritmus második ciklusa n-1 iterációval kiüríti Q-t, és megáll, miután gráf mindegyik csúcsába optimális utat talált.
 
 
 Ha pedig egyszer a kiterjesztésre kiválasztott u csúcsra már $d(u) = \infty$, akkor $Q \cup \{u\}$ egyetlen eleme sem érhető már el az s csúcsból.
@@ -310,7 +310,7 @@ Ezután - a szokásos inicializálásokat követően - a csúcsokat a topologiku
 
 A topologikus rendezés csak az s-ből elérhető részgráfot próbálja topologikusan rendezni.
 
-A time változó szemlélető célú, elhagyható.
+A time változó szemléltető célú, elhagyható.
 
 <img src="./img/16_algo/DAGshp.png" width="850"/>
 
@@ -318,7 +318,7 @@ A time változó szemlélető célú, elhagyható.
 $mT(n, m) \in \Theta(n)$ és $MT(n, m) \in \Theta(n + m)$.
 
 ### Sor alapú Bellman-Ford
-Előfeltétel: Nincs az s-ből elérhető negatív kör (irányított gráf esetén lehetnek negatív élsúlyok).
+Előfeltétel: nincs az s-ből elérhető negatív kör (irányított gráf esetén lehetnek negatív élsúlyok).
 
 A QBF hasonlít a szélességi kereséshez, de az utak hosszát a Dijkstra, a DAGshP algoritmushoz hasonlóan, az út menti élsúlyok összegeként határozza meg.
 
@@ -342,7 +342,7 @@ A **menet** rekurzív definíciója:
 - A 0. menet: a start csúcs (s) feldolgozása
 - (i+1). menet: az i. menet végén a sorban levő csúcsok feldolgozása
 
-Ha s-ből nem érhető el negatív kör, akkor tetszőleges s-ből elérhető u csúcsra van olyan $s \rightsquigarrow (opt) \rightsquigarrow u$ út, amit az n–1. menet elejére már a QBF kiszámolt $\Rightarrow$ az n-1. menet végére kiürül a sor, az algoritmus pedig $O(n * m)$ időben megáll.
+Ha s-ből nem érhető el negatív kör, akkor tetszőleges s-ből elérhető u csúcsra van olyan $s \rightsquigarrow (opt) \rightsquigarrow u$ út, amit az n-1. menet elejére már a QBF kiszámolt $\Rightarrow$ az n-1. menet végére kiürül a sor, az algoritmus pedig $O(n * m)$ időben megáll.
 
 Ezért $MT(n, m) \in O(n * m)$.
 
@@ -352,15 +352,15 @@ Ezek az algoritmusok a gráfok csúcsmátrixos reprezentációjára épülnek, m
 Az irányítatlan gráfokat olyan irányított gráfnak tekintjük, amelyben minden $(u,v)$ élnek megvan az ellentétes irányú $(v,u)$ élpárja és $w(u,v) = w(v,u)$.
 
 ### Floyd-Warshall algoritmus
-Előfeltétel: A gráfban nincs negatív kör (ezt az algoritmus ellenőrzi).
+Előfeltétel: a gráfban nincs negatív kör (ezt az algoritmus ellenőrzi).
 
 A gráf csúcsait 1-től n-ig indexeljük és a csúcsokat az indexükkel azonosítjuk.
 
 Az algoritmus a $\left<(D^{(0)}, \pi^{(0)}), (D^{(1)}, \pi^{(1)}), \cdots, (D^{(n)}, \pi^{(n)})\right>$ mátrixpársorozatot állítja elő. Az optimális utakat úgynevezett belső csúcsok mentén keressük.
 
-Belső csúcs egy $p = \left<v_1, v_2, \cdots, v_k\right>$ út belső csúcsa minden $v_1$-től és $v_k$-tól különböző csúcs.
+Egy $p = \left<v_1, v_2, \cdots, v_k\right>$ út belső csúcsa minden $v_1$-től és $v_k$-tól különböző csúcs.
 
-$i \rightsquigarrow \xrightarrow{k} \rightsquigarrow j$ az i csúcsból a j csúcsba vezető út, azzal a megszorítással, hogy az úton a közbenső (belső) csúcsok indexe $< k$ (a végpontos lehetnek nagyobbak).
+$i \rightsquigarrow \xrightarrow{k} \rightsquigarrow j$ az i csúcsból a j csúcsba vezető út, azzal a megszorítással, hogy az úton a közbenső (belső) csúcsok indexe $< k$ (a végpontok lehetnek nagyobbak).
 
 $i \rightsquigarrow \xrightarrow[opt]{k} \rightsquigarrow j$ az i csúcsból a j csúcsba vezető legrövidebb körmentes út, azzal a megszorítással, hogy az úton a közbenső csúcsok indexe $\leq k$.
 
@@ -415,7 +415,7 @@ $$
 
 Az aktuális iterációban a D és $\pi$ k. sora és a k. oszlopa nem változik.
 
-Mivel az aktuális iterációban számolt mátrix ($D^{(k)}$) értékei az előző mátrix ($D^{(k-1)}$) azon értékeitől függnek, amelyek nem változnak, ezért nem szükséges segédmátrixot tárolni.
+Mivel $D^{(k)}_{ij}$ csak a $D^{(k−1)}_{ij}$, a $D^{(k−1)}_{ik}$ és a $D^{(k−1)}_{kj}$ értékektől függ, valamint $D^{(k)}_{ik} = D^{(k-1)}_{ik} \land D^{(k)}_{kj} = D^{(k-1)}_{kj}$, a D mátrix kiszámításához nem kell segédmátrixokat tárolni.
 
 #### **Algoritmus**
 Az algoritmus a k. lépésben azt vizsgálja meg, hogy az i-ből j-be vezető legrövidebb út javítható-e, ha megengedjük, hogy a k indexű csúcs is a két csúcs közötti út egyik csúcsa legyen.
@@ -456,10 +456,13 @@ A $G = (V, E)$ gráf **tranzitív lezártja** alatt a $T \subseteq V \times V$ r
 
 Az algoritmus a $\left< T^{(0)}, T^{(1)}, \cdots, T^{(n)}\right>$ sorozatot számítja ki.
 
+A gráfot az A/1 : B[n,n] csúcsmátrix ábrázolja (az esetleges élsúlyoktól eltekintve).
+A tranzitív lezártat a T/1 : B[n, n] mátrix ábrázolja.
+
 ##### Invariáns
 $T^{(k)}_{ij} \Leftrightarrow \exists i \rightsquigarrow \xrightarrow{k} \rightsquigarrow j$
 
-##### A k. állapot kiszámítása, kezdő- és végállapot
+##### Kezdő- és végállapot, a k. állapot kiszámítása
 $T^{(0)}_{ij} = A[i,j] \lor (i=j)$
 
 $T^{(k)}_{ij} = T^{(k-1)}_{ij} \lor (T^{(k-1)}_{ik} \land T^{(k-1)}_{kj})$
@@ -473,6 +476,6 @@ Az aktuális iterációban a T k. sora és a k. oszlopa nem változik.
 Floyd-Warshall és tranzitív lezárt hasonlósága: $T[i,j] \Leftrightarrow D[i,j] < \infty$.
 
 #### **Műveletigény**
-$T \in \Theta(n^3)$ a Floyd-Warshall algoritmusnál látottakhoz hasonlóan (kivéve a negatív kör esetét, olyan itt nem lehetséges).
+$T(n) \in \Theta(n^3)$ a Floyd-Warshall algoritmusnál látottakhoz hasonlóan (kivéve a negatív kör esetét, olyan itt nem lehetséges).
 
 </div>
