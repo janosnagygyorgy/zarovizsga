@@ -6,22 +6,23 @@
 [Osztály](#osztály) és [objektum](#objektum).
 [Egységbe zárás](#egységbe-zárás), [tagok](#tagok), [konstruktorok](#konstruktorok).
 [Információ elrejtése](#információ-elrejtése).
-Túlterhelés.
+[Túlterhelés](#túlterhelés).
 [Memóriakezelés](#memóriakezelés), [szemétgyűjtés](#szemétgyűjtés).
 [Öröklődés](#öröklődés), [többszörös öröklődés](#többszörös-öröklődés).
-Altípusosság.
-Statikus és dinamikus típus, [típusellenőrzés](#típusellenőrzés).
+[Altípusosság](#altípusosság).
+[Statikus és dinamikus típus](#statikus-és-dinamikus-típus), [típusellenőrzés](#típusellenőrzés).
 [Felüldefiniálás](#felüldefiniálás), [dinamikus kötés](#dinamikus-kötés).
 [Generikusok](#generikusok).
 [Altípusos](#altípusos-polimorfizmus) és [parametrikus polimorfizmus](#parametrikus-polimorfizmus).
 Objektumok összehasonlítása és [másolása](#objektumok-másolása).
 
+
 #### **SOLID elvek:**
-- **S**ingle responsibility
-- **O**pen-Closed
-- **L**iskov’s substitution
-- **I**nterface segregation
-- **D**ependency inversion
+- **S**ingle responsibility principle: egy osztály csak egy felelősséggel rendelkezzen.
+- **O**pen-Closed principle: egy osztály legyen nyílt a kiterjesztésre, de zárt a módosításra.
+- **L**iskov’s substitution principle: minden osztály legyen helyettesíthető a leszármazott osztályával anélkül, hogy a program helyes működése megváltozna.
+- **I**nterface segregation principle: egy általános interfész helyett használjuk több specifikus interfészt.
+- **D**ependency inversion principle: a kód részei absztrakcióktól függjenek, ne konkrét implementációktól. Vagyis ha az osztályunknak szüksége van egy másik osztályra a működéséhez, akkor ne a konkrét osztálytípust várja függőségnek, hanem egy interfészt, amit a függőségosztály megvalósít. Pl. egy osztály ne maga példányosítson egy másik osztályt, hanem a konstruktorán keresztül befecskendezve kapja meg az interfészt amit a függőségosztály megvalósít.
 
 
 #### **Típus:**
@@ -74,6 +75,27 @@ Ha más konstruktort nem definiálunk, akkor is rendelkezünk egy (paraméter n�
 Az egységbe zárt elemek láthatóságának korlátozása (általában az adattagok rejtettek, azok értékéhez csak közvetetten, a publikus metódusokkal férünk hozzá).
 
 Egy objektum rejtett (privát, védett) tagjaira csak az objektum metódusainak törzsében hivatkozhatunk, máshol ezeket közvetlenül nem használhatjuk.
+Protected tagjait csak ugyanabban a csomagban lévő osztályok, más csomagban csak a leszármazottak láthatják.
+
+
+#### **Túlterhelés:**
+##### Túlterhelés
+- Ugyanazzal a névvel, különböző paraméterezéssel
+- Megörökölt és bevezetett műveletek között
+- Fordító választ az aktuális paraméterlista szerint
+
+##### Felüldefiniálás
+- Bázisosztályban adott műveletre
+- Ugyanazzal a névvel és paraméterezéssel
+  - Ugyanaz a metódus
+  - Egy példánymetódusnak lehet több implementációja
+- Futás közben választódik ki a legspeciálisabb implementáció (dinamikus kötés)
+
+##### Újradeklarálás
+- Ugyanaz, mint a felüldefiniálás, viszont:
+  - Láthatóság bővíthető
+  - Visszatérési típus szűkíthető
+  - Bejelentett ellenőrzött kivételek szűkíthetők
 
 
 #### **Memóriakezelés:**
@@ -111,6 +133,8 @@ Az osztályok egy teljes származtatási hierarchiában vannak: minden osztály 
 Absztrakt (abstract) osztály az, amelyből nem példányosítunk objektumokat, hanem kizárólag ősosztályként szolgál a származtatásokhoz.
 Egy osztály attól lesz absztrakt, hogy a konstruktorai nem publikusak, vagy legalább egy metódusa absztrakt, azaz nem rendelkezik törzzsel, ezt a származtatás során kell majd megadni.
 
+Final osztályból (Java) nem lehet származtatni.
+
 Interfésznek a tisztán absztrakt (pure abstract) osztályt hívjuk.
 Ennek nincsenek adattagjai, és egyetlen metódusának sincs törzse.
 Egy interfészből származtatott konkrét osztálynak minden absztrakt metódust implementálni kell: meg kell valósítania az interfészt.
@@ -125,6 +149,28 @@ A C++ megengedi a többszörös öröklődést, ami problémákhoz vezethet, ha 
 C++-ban a megoldás erre a virtuális öröklődés, ilyenkor a szülők közös ősének adattagjai örökli a gyerek osztály.
 
 
+#### **Altípusosság:**
+- $A \triangle B \Rightarrow A <: B$ (A a B leszármazottja, A altípusa B-nek)
+- Az A osztály mindent tud, amit a B osztály.
+- Amit lehet B-vel, lehet A-val is.
+- Java-ban minden T osztályra: T $<:$ java.lang.Object
+- Liskov helyettesítési elvnek meg kell felelni
+
+
+#### **Statikus és dinamikus típus:**
+##### Statikus típus
+- Változó vagy paraméter **deklarált** típusa
+- A programszövegből következik
+- Állandó
+- A fordítóprogram ez alapján típusellenőriz
+
+##### Dinamikus típus
+- Változó vagy paraméter **tényleges** típusa
+- Futási időben derül ki
+- Változékony
+- A statikus típus altípusa
+
+
 #### **Típusellenőrzés:**
 Szigorúan típusos nyelv: minden értéknek fordítási időben ismert a típusa, nem enged meg értékvesztést.
 Nagyobb halmazra implicit (upcast, altípusosság) típuskonverzió, kompatibilis halmazra explicit típuskonverzió (downcast) használható.
@@ -134,8 +180,11 @@ Nagyobb halmazra implicit (upcast, altípusosság) típuskonverzió, kompatibili
 Öröklődés során a műveletek és tulajdonságok felüldefiniálhatóak.
 Ha egy ősosztály metódusát a leszármazott osztályban felülírjuk (override), akkor ez a metódus több alakkal is rendelkezik (polimorf).
 
+
 #### **Dinamikus kötés:**
 Mivel egy ősosztály típusú változónak mindig értékül adható alosztálya példányának hivatkozása, csak futási időben derülhet az ki, hogy egy ilyen a változó az ősosztálynak egy példányára vagy alosztályának egy példányára hivatkozik (késői vagy futási idejű vagy dinamikus kötés).
+
+Példánymetódus hívásánál a használt kitüntetett paraméter (az objektum aminek a metódusát meghívjuk) dinamikus típusához legjobban illeszkedő implementáció hajtódik végre.
 
 
 #### **Generikusok:**
