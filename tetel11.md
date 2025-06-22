@@ -191,7 +191,7 @@ Példánymetódus hívásánál a használt kitüntetett paraméter (az objektum
 Generikus programozásra futási időben feldolgozott sablon típusok (generic-ek) segítségével van lehetőség.
 A sablon fordításra kerül, és csak a futásidejű fordításkor helyettesítődik be a konkrét értékre.
 
-A szigorú típuskezelés miatt a sablonra csak az Object-ben értelmezett műveletek használhatóak, ezt a műveletkört növelhetjük megszorításokkal (Java: `<T extends Class>`, C#: `<T> where T : Class`).
+A szigorú típuskezelés miatt a sablonra csak az Object-ben értelmezett műveletek használhatóak, ezt a műveletkört növelhetjük megszorításokkal (Java: `<T extends Class>` (upper bound), `<? super T>` (lower bound), C#: `<T> where T : Class`).
 
 
 #### **Altípusos polimorfizmus:**
@@ -201,7 +201,7 @@ Kívánatos, hogy egy felüldefiniált metódus, akár az ősosztály, akár alo
 Ha egy ősosztály típusú változóra egy polimorf virtuális metódust hívunk meg, akkor e metódusnak azon osztályban definiált változata fut majd le, amilyen osztályú példányra hivatkozik a változó (dinamikus altípusos polimorfizmus).
 
 Liskov substitution principle (LSP): az objektumok felcserélhetők altípusaik példányára a program viselkedésének befolyása nélkül.
-Minden altípusnak biztosítania kell az ős funkcionalitását azok feltételeinek betartása mellett.
+Minden altípusnak biztosítania kell az ős funkcionalitását annak feltételeinek betartása mellett.
 
 
 #### **Parametrikus polimorfizmus:**

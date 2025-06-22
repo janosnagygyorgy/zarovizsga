@@ -202,7 +202,7 @@ Hasító tábláknál ez a listatípus bizonyul majd célszerűnek.
 A fejelemes és a fejelem nélküli ciklikus kétirányú listák (C2L) elemeinek osztálya, és az alapvető listakezelő műveleteik is ugyanazok.
 Általában szoktunk használni fejelemet, mert így a listakezelés tovább egyszerűsödik.
 Nem kell ugyanis külön kezelni az üres listába való beszúrást (hiszen az is tartalmaz már egy fejelemet) és az utolsó listaelem törlését sem (ugyanis a fejelem akkor is a listában marad).
-Az alábbiakban ezért C2L alatt alapértelmezésben fejelemes ciklikus kétirányú listát értünk.
+A továbbiakban ezért C2L alatt alapértelmezésben fejelemes ciklikus kétirányú listát értünk.
 
 A C2L-ek műveleteinek (precede(q, r), follow(p, q), unlink(q)) műveletigénye $\Theta(1)$.
 
@@ -313,7 +313,7 @@ Ha a gyerekek sorrendje lényeges, akkor rendezett fákról beszélünk.
 
 ### Bejárások
 Az általános fák megfeleltetése a bináris reprezentációval:
-child1~left és sibling~right.
+child1\~left és sibling\~right.
 - általános fák preorder bejárása: bináris fák preorder bejárása
 - általános fák postorder bejárása: bináris fák inorder bejárása
 
@@ -348,21 +348,18 @@ Pl. $\left\{1\left[ 2 \left(5\right) \right] \left(3\right) \left[4 \left(6\righ
 **Szigorúan bináris fák:** olyan bináris fák, amelyekben minden belső (azaz nem-levél) csúcsnak két gyereke van.
 
 **Teljes bináris fák:** ha ez utóbbiaknak minden levele azonos szinten van.
-Magassága: $1 + 2 + 4 + \cdots + 2^h = 2^{h+1} - 1$.
+Magassága h, csúcsainak száma: $1 + 2 + 4 + \cdots + 2^h = 2^{h+1} - 1$.
 
 **Majdnem teljes bináris fák:** ha egy teljes bináris fa levélszintjéről nulla, egy vagy több levelet elveszünk, de nem az összeset.
 Magassága: $n \in [2^h..2^{h+1})$, így $h = \lfloor \log n \rfloor$.
 
 Egy majdnem teljes bináris fa **balra tömörített**, ha az alsó szintjén egyetlen levéltől balra sem lehet új levelet beszúrni.
 Azaz csak az alsó szint jobb széléről hiányozhatnak csúcsok (a bal szélső kivételével akár az összes is).
-
 A balra tömörített majdnem teljes bináris fák más néven **szintfolytonos bináris fák**.
 
 **Maximum [minimum] kupac (heap):** olyan szintfolytonos bináris fák, amelyekben minden belső csúcs kulcsa nagyobb-egyenlő [kisebb-egyenlő], mint a gyerekeié.
-
 Egy kupac bal- és jobb oldali részfájában lévő kulcsok között nincs semmi nagyságrendi kapcsolat.
-
-Bármely nemüres kupac maximuma a gyökércsúcsában, minimuma a levelei között található meg.
+Bármely nemüres maximum kupac maximuma a gyökércsúcsában, minimuma a levelei között található meg.
 
 Alkalmazásai: prioritásos sorok reprezentációjához.
 
